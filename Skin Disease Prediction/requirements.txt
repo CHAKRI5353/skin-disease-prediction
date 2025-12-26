@@ -1,0 +1,5 @@
+flask==2.3.3
+torch             # choose the right version for your CUDA; or cpu-only
+transformers==4.40.0
+Pillow
+numpy

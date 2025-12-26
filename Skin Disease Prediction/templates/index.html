@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Disease Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page">
+        <div class="glass-card">
+            <div class="hero">
+                <h1>Skin Disease Classifier</h1>
+                <p class="subtitle">Upload an image — the model predicts the likely condition.</p>
+            </div>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div style="background: rgba(255,0,0,0.1); color: #FFD7D7; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-size: 14px;">
+                        {{ messages[0] }}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" enctype="multipart/form-data" action="{{ url_for('index') }}">
+                <div class="uploader">
+                    <label for="imageInput" class="dropzone" id="dropzone">
+                        {% if uploaded_image %}
+                            <img src="{{ uploaded_image }}" id="preview" alt="Uploaded Preview" class="preview" style="display:block;">
+                        {% else %}
+                            <img src="" id="preview" alt="Image Preview" class="preview" style="display:none;">
+                            <div class="placeholder">
+                                <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"></path></svg>
+                                <p class="text">Click or drop an image</p>
+                            </div>
+                        {% endif %}
+                        <input type="file" name="image" id="imageInput" accept="image/png, image/jpeg, image/jpg">
+                    </label>
+                </div>
+                <div class="controls">
+                    <button type="submit" class="btn">Analyze</button>
+                </div>
+             <div class="controls">
+               <button type="button" class="btn ghost" id="clearBtn">Clear</button>
+              </div>
+            </form>
+
+            {% if prediction %}
+            <div class="results">
+                <div class="result-row">
+                    <div class="result-image">
+                        <img src="{{ uploaded_image }}" alt="Uploaded Image">
+                    </div>
+                    <div class="result-text">
+                        <h2>Prediction</h2>
+                        <div class="prediction">
+                            {{ prediction }}
+                            <span class="prob">({{ '%.2f' % (probability * 100) }}%)</span>
+                        </div>
+
+                        <h3>Top Probabilities</h3>
+
+                        <ul class="prob-list">
+                            {% for label, prob in results %}
+                            <li>
+                                <div style="margin-bottom: 4px;">{{ label }}</div>
+                                <div class="bar">
+                                    <div class="bar-fill" style="width:{{ (prob * 100) }}%"></div>
+                                    <div class="bar-text">{{ (prob*100)|round(2) }}%</div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+    </div>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

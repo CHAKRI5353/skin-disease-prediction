@@ -1,0 +1,191 @@
+:root{
+    /* Variables for iOS-like Glass Effect */
+    --accent: #5A69FF;
+    --accent-2: #00D4FF;
+    --glass-bg: rgba(255,255,255,0.08);
+    --glass-border: rgba(255,255,255,0.2);
+    --glass-shadow: rgba(0,0,0,0.8);
+    --text: #eef2ff;
+    --muted: rgba(255,255,255,0.7);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;}
+body{
+    margin:0;
+    font-family: -apple-system, BlinkMacMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1000px 600px at 10% 20%, rgba(90,105,255,0.2), transparent), radial-gradient(700px 500px at 90% 80%, rgba(0,212,255,0.1), transparent), #060618;
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* Page container */
+.page{
+    width:100%;
+    max-width:980px;
+    padding:20px;
+}
+
+/* Glass card */
+.glass-card{
+    backdrop-filter: blur(25px) saturate(180%);
+    background: linear-gradient(180deg, var(--glass-bg), rgba(255,255,255,0.05));
+    border-radius:20px;
+    padding:30px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 15px 40px var(--glass-shadow), 0 5px 15px rgba(90,105,255,0.1);
+    overflow:hidden;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+}
+.glass-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px var(--glass-shadow), 0 8px 25px rgba(90,105,255,0.3);
+}
+
+/* Hero */
+.hero h1{
+    margin:0;
+    font-size:28px;
+    letter-spacing:0.5px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.hero .subtitle{
+    margin:8px 0 20px 0;
+    color:var(--muted);
+    font-size:16px;
+}
+
+/* Uploader */
+.uploader{margin-bottom:20px;}
+.dropzone{
+    /* FIX 1: Set a minimum height for the empty state */
+    min-height: 150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    /* Removed redundant gap: 16px; here, it's now handled by the .placeholder */
+    padding:20px;
+    border-radius:14px;
+    border:1px dashed rgba(255,255,255,0.15);
+    background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    cursor:pointer;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease;
+    position:relative;
+    overflow:hidden;
+}
+.dropzone input[type=file]{position:absolute; inset:0; opacity:0; cursor:pointer;}
+.dropzone:hover{transform:translateY(-4px); box-shadow: 0 8px 20px rgba(90,105,255,0.2);}
+
+/* FIX 2: Corrected alignment for the placeholder content */
+.placeholder{
+    text-align:center;
+    color:var(--muted);
+    /* Set display flex to align the icon and text vertically */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.placeholder .icon{
+    opacity:0.9;
+    /* FIX 3: Increase icon size for better visibility */
+    width: 30px;
+    height: 30px;
+}
+.placeholder .text{
+    margin-top:8px; /* Slightly more space between icon and text */
+    font-size:15px;
+}
+
+.preview{
+    max-height:220px;
+    max-width:100%;
+    border-radius:12px;
+    object-fit:cover;
+    display:block;
+}
+
+/* Controls (Buttons) - iOS Tactile Feel */
+.controls{
+    margin-top:15px;
+    display:flex;
+    gap:10px;
+    justify-content: center;
+}
+.btn{
+    padding:12px 20px;
+    border-radius:12px;
+    border:none;
+    background: linear-gradient(45deg, var(--accent), var(--accent-2));
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.2s ease;
+}
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(90,105,255,0.4);
+}
+.btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 5px rgba(90,105,255,0.4);
+}
+.btn.ghost{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    color:var(--muted);
+}
+.btn.ghost:hover {
+    background:rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(255,255,255,0.1);
+}
+.btn.ghost:active {
+    transform: scale(0.95);
+    box-shadow: 0 1px 5px rgba(255,255,255,0.1);
+}
+
+/* Results area */
+.results{margin-top:25px;}
+.result-row{display:flex; gap:30px; align-items:flex-start;}
+.result-image img{
+    width:240px;
+    height:240px;
+    border-radius:18px;
+    object-fit:cover;
+    box-shadow: 0 10px 40px var(--glass-shadow);
+    border: 3px solid var(--glass-border);
+}
+
+.prediction{
+    background:linear-gradient(90deg, rgba(90,105,255,0.25), rgba(0,212,255,0.15));
+    padding:10px 16px;
+    border-radius:14px;
+    display:inline-block;
+    margin:6px 0 18px 0;
+    font-weight:700;
+    font-size:18px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.prob-list{margin:15px 0 0 0; padding:0; list-style:none; max-width:420px;}
+.bar{height:30px; background: rgba(255,255,255,0.08); border-radius:10px; position:relative; overflow:hidden;}
+.bar-fill{
+    height:100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    border-radius:10px;
+    transform-origin:left;
+    transition: width 800ms cubic-bezier(0.2, 0.8, 0.4, 1.0);
+}
+.bar-text{position:absolute; right:10px; top:50%; transform:translateY(-50%); font-weight:700; font-size:14px; color:#fff;}
+
+/* small footer */
+.foot{margin-top:25px; color:var(--muted); font-size:13px; text-align:right;}
+code{background:rgba(255,255,255,0.05); padding:3px 8px; border-radius:6px; color: var(--accent-2);}
